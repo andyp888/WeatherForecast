@@ -1,0 +1,43 @@
+<div class="card mt-4">
+    <h4 class="card-header">Weather Forecast</h4>
+    <div class="card-body">
+        <h6>Enter a location to retrieve weather details</h6>
+        <form [formGroup]="forecastForm" (ngSubmit)="search()">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" formControlName="location" placeholder="Location"
+                    aria-label="Location" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="search()">Search</button>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <div *ngIf="weatherDetails && !error" class="col d-flex justify-content-center">
+            <div class="card" style="width: 40rem">
+                <h3>Weather details for {{location}}</h3>
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Current weather: {{weatherDetails.weather[0].main}}</h5>
+                        <p>Temperature: {{weatherDetails.main.temp | number : '1.2-2'}}°C</p>
+                    </div>
+                    <p class="mb-1">Feels like: {{weatherDetails.main.feels_Like | number : '1.2-2'}}°C</p>
+                    <p class="mb-1">Maximum: {{weatherDetails.main.temp_Max | number : '1.2-2'}}°C</p>
+                    <p class="mb-1">Minimum: {{weatherDetails.main.temp_Min | number : '1.2-2'}}°C</p>
+                    <p class="mb-1">Pressure: {{weatherDetails.main.pressure | number : '1.2-2'}}</p>
+                    <p class="mb-1">Humidity: {{weatherDetails.main.humidity | number : '1.2-2'}}%</p>
+                    <p class="mb-1">Cloudiness: {{weatherDetails.clouds.all | number : '1.2-2'}}%</p>
+                </div>
+
+            </div>
+        </div>
+        <div *ngIf="error">
+            <p class="text-danger">Error retrieving weather details</p>
+        </div>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button [disabled]="resetButtonDisabled" class="btn btn-primary" type="button" (click)="reset()">Reset</button>
+        <button [disabled]="loading" class="btn btn-dark" (click)="logout()">
+            Log out
+        </button>
+    </div>
+</div>
